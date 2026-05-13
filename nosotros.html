@@ -5,383 +5,195 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sobre Nosotros — EvoTech</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 <style>
-  :root {
-    --brand:      #2563eb;
-    --brand-dark: #1e3a8a;
-    --brand-sky:  #0ea5e9;
-    --text-main:  #0f172a;
-    --text-muted: #64748b;
-    --border:     #e2e8f0;
-    --bg-page:    #f8fafc;
-    --bg-card:    #ffffff;
-  }
+  .content-wrap { padding: 80px 60px; max-width: 1200px; margin: 0 auto; }
 
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  .who-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: start; margin-bottom: 100px;
+    padding-bottom: 80px; border-bottom: 1px solid var(--border);
+  }
+  .who-left { position: sticky; top: 100px; }
+  .who-left h2 {
+    font-family: var(--font-display); font-size: clamp(36px, 4vw, 56px);
+    font-weight: 300; line-height: 1.1; color: var(--ink); margin-top: 16px;
+  }
+  .who-left h2 em { font-style: italic; color: var(--gold); }
+  .who-right p {
+    font-size: 16px; font-weight: 300; color: var(--ink-80);
+    line-height: 1.9; margin-bottom: 20px;
+  }
+  .who-right p:last-of-type { margin-bottom: 0; }
+  .gold-bar { width: 40px; height: 2px; background: var(--gold); margin: 32px 0; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg-page);
-    color: var(--text-main);
-    line-height: 1.6;
-  }
-
-  /* NAV */
-  header {
-    width: 100%;
-    height: 70px;
-    background: #fff;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 80px;
-    position: sticky;
-    top: 0;
-    z-index: 200;
-    box-shadow: 0 1px 8px rgba(0,0,0,0.06);
-  }
-  .logo img { height: 90px; }
-  nav ul { display: flex; list-style: none; gap: 36px; }
-  nav ul li a {
-    text-decoration: none;
-    color: var(--text-muted);
-    font-size: 15px;
-    transition: color 0.2s;
-  }
-  nav ul li a:hover { color: var(--brand); }
-
-  /* PAGE HEADER */
-  .page-header {
-    background: var(--brand-dark);
-    padding: 72px 80px 64px;
-    position: relative;
-    overflow: hidden;
-  }
-  .page-header::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 60px),
-      repeating-linear-gradient(0deg,  rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 60px);
-  }
-  .page-header .mono {
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    color: var(--brand-sky);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    position: relative;
-  }
-  .page-header h1 {
-    font-size: clamp(36px, 5vw, 60px);
-    font-weight: 300;
-    color: #fff;
-    line-height: 1.1;
-    max-width: 600px;
-    position: relative;
-  }
-  .page-header h1 span { color: var(--brand-sky); }
-  .page-header p {
-    margin-top: 20px;
-    font-size: 17px;
-    color: #94a3b8;
-    max-width: 520px;
-    position: relative;
-  }
-
-  /* CONTENIDO */
-  .content { padding: 72px 80px; display: flex; flex-direction: column; gap: 64px; }
-
-  /* QUIÉNES SOMOS */
-  .who {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
-    align-items: start;
-  }
-  .who-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--text-muted);
-    margin-bottom: 16px;
-  }
-  .who h2 {
-    font-size: 32px;
-    font-weight: 500;
-    color: var(--brand-dark);
-    margin-bottom: 20px;
-    line-height: 1.2;
-  }
-  .who p {
-    font-size: 16px;
-    color: var(--text-muted);
-    line-height: 1.8;
-    margin-bottom: 16px;
-  }
-  .who p:last-child { margin-bottom: 0; }
-
-  /* MISIÓN Y VISIÓN */
-  .mv-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-  }
+  .mv-section { margin-bottom: 100px; padding-bottom: 80px; border-bottom: 1px solid var(--border); }
+  .mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); margin-top: 48px; }
   .mv-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 36px 32px;
-    position: relative;
-    overflow: hidden;
-    animation: fadeUp 0.5s ease both;
+    background: var(--white); padding: 52px 44px;
+    position: relative; overflow: hidden;
   }
   .mv-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 4px;
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 3px;
   }
-  .mv-card.mision::before { background: var(--brand); }
-  .mv-card.vision::before { background: var(--brand-sky); }
-  .mv-card .card-mono {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    margin-bottom: 14px;
+  .mv-card.mision::before { background: var(--gold); }
+  .mv-card.vision::before { background: var(--ink); }
+  .mv-card-tag {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 20px;
   }
-  .mv-card.mision .card-mono { color: var(--brand); }
-  .mv-card.vision .card-mono { color: var(--brand-sky); }
+  .mv-card.mision .mv-card-tag { color: var(--gold); }
+  .mv-card.vision .mv-card-tag { color: var(--ink-40); }
   .mv-card h3 {
-    font-size: 22px;
-    font-weight: 500;
-    color: var(--text-main);
-    margin-bottom: 14px;
+    font-family: var(--font-display); font-size: 28px; font-weight: 400;
+    color: var(--ink); margin-bottom: 16px; line-height: 1.2;
   }
-  .mv-card p {
-    font-size: 15px;
-    color: var(--text-muted);
-    line-height: 1.8;
+  .mv-card p { font-size: 15px; font-weight: 300; color: var(--ink-80); line-height: 1.8; }
+
+  .values-section { margin-bottom: 100px; }
+  .values-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 2px; background: var(--border); margin-top: 48px;
+  }
+  .valor {
+    background: var(--white); padding: 40px 28px;
+    transition: all 0.4s var(--ease-out); position: relative; overflow: hidden;
+  }
+  .valor::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 2px; background: var(--gold);
+    transition: width 0.4s var(--ease-out);
+  }
+  .valor:hover { background: var(--canvas-2); }
+  .valor:hover::after { width: 100%; }
+  .valor-icon { font-size: 28px; margin-bottom: 20px; }
+  .valor h4 { font-family: var(--font-display); font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 10px; }
+  .valor p { font-size: 13px; font-weight: 300; color: var(--ink-80); line-height: 1.7; }
+
+  .objective-banner {
+    background: var(--ink); padding: 80px 72px;
+    position: relative; overflow: hidden;
+  }
+  .objective-banner::before {
+    content: ''; position: absolute;
+    bottom: -40%; right: -10%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(201,169,110,0.07) 0%, transparent 70%);
+  }
+  .objective-banner .quote {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3vw, 40px); font-weight: 300;
+    color: rgba(255,255,255,0.85); line-height: 1.5;
+    max-width: 800px; position: relative;
+  }
+  .objective-banner .quote em { font-style: italic; color: var(--gold-light); }
+  .objective-banner .quote::before {
+    content: '"';
+    display: block;
+    font-family: var(--font-display);
+    font-size: 100px; line-height: 0.7;
+    color: rgba(201,169,110,0.15);
+    margin-bottom: 20px;
   }
 
-  /* VALORES */
-  .section-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--text-muted);
-    margin-bottom: 8px;
-  }
-  .section-title {
-    font-size: 32px;
-    font-weight: 500;
-    color: var(--text-main);
-    margin-bottom: 36px;
-  }
-  .valores-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-  }
-  .valor-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 24px 20px;
-    transition: border-color 0.2s, transform 0.2s;
-  }
-  .valor-card:hover {
-    border-color: var(--brand);
-    transform: translateY(-3px);
-  }
-  .valor-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    background: #eff6ff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 14px;
-    font-size: 18px;
-  }
-  .valor-card h4 {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--text-main);
-    margin-bottom: 8px;
-  }
-  .valor-card p {
-    font-size: 13px;
-    color: var(--text-muted);
-    line-height: 1.6;
-  }
-
-  /* OBJETIVO */
-  .objetivo {
-    background: var(--brand-dark);
-    border-radius: 16px;
-    padding: 56px 60px;
-    position: relative;
-    overflow: hidden;
-  }
-  .objetivo::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 60px),
-      repeating-linear-gradient(0deg,  rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 60px);
-  }
-  .objetivo .mono {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--brand-sky);
-    margin-bottom: 16px;
-    position: relative;
-  }
-  .objetivo h2 {
-    font-size: 28px;
-    font-weight: 400;
-    color: #fff;
-    max-width: 700px;
-    line-height: 1.6;
-    position: relative;
-  }
-  .objetivo h2 span { color: var(--brand-sky); }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* FOOTER */
-  footer {
-    background: var(--brand-dark);
-    color: #e5e7eb;
-    text-align: center;
-    padding: 24px;
-    font-size: 14px;
-  }
-
-  /* RESPONSIVE */
   @media (max-width: 900px) {
-    header { padding: 0 20px; height: auto; flex-wrap: wrap; gap: 12px; padding: 14px 20px; }
-    nav ul { gap: 20px; flex-wrap: wrap; }
-    .page-header { padding: 48px 24px 40px; }
-    .content { padding: 48px 20px; gap: 48px; }
-    .who { grid-template-columns: 1fr; gap: 24px; }
+    .content-wrap { padding: 60px 24px; }
+    .who-grid { grid-template-columns: 1fr; gap: 40px; margin-bottom: 60px; }
+    .who-left { position: static; }
     .mv-grid { grid-template-columns: 1fr; }
-    .objetivo { padding: 40px 28px; }
+    .values-grid { grid-template-columns: 1fr 1fr; }
+    .objective-banner { padding: 60px 28px; }
+  }
+  @media (max-width: 640px) {
+    .values-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">
-    <img src="imagenes/logo.png" alt="Logo de EvoTech">
-  </div>
-  <nav aria-label="Navegación principal">
-    <ul>
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="servicios.html">Servicios</a></li>
-      <li><a href="nosotros.html">Sobre nosotros</a></li>
-      <li><a href="contacto.html">Contacto</a></li>
-    </ul>
-  </nav>
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="imagenes/logo.png" alt="EvoTech">
+    <span class="nav-wordmark">Evo<span>Tech</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="servicios.html">Servicios</a></li>
+    <li><a href="nosotros.html" class="active">Nosotros</a></li>
+    <li><a href="contacto.html">Contacto</a></li>
+    <li><a href="carrito.html" class="nav-cart-btn">Carrito</a></li>
+  </ul>
+</nav>
+
+<header class="page-hero page-hero-nosotros">
+  <p class="page-hero-tag">Quiénes somos</p>
+  <h1>Tecnología<br>con <em>propósito</em></h1>
+  <p>Conoce la empresa detrás de las soluciones digitales que impulsan tu negocio.</p>
 </header>
 
-<div class="page-header">
-  <p class="mono">EvoTech — Quiénes somos</p>
-  <h1>Tecnología con <span>propósito</span></h1>
-  <p>Conoce la empresa detrás de las soluciones digitales que impulsan tu negocio.</p>
-</div>
+<main>
+  <div class="content-wrap">
 
-<main class="content">
+    <  WHO  
+    <section class="who-grid">
+      <div class="who-left">
+        <p class="sec-tag">01 — Quiénes somos</p>
+        <h2>Una empresa enfocada en soluciones<br><em>digitales reales</em></h2>
+      </div>
+      <div class="who-right">
+        <div class="gold-bar"></div>
+        <p>EvoTech es una empresa enfocada en brindar soluciones tecnológicas innovadoras y eficientes para empresas, emprendedores y negocios que buscan adaptarse al mundo digital.</p>
+        <p>Nuestro objetivo es ayudar a mejorar los procesos tecnológicos mediante servicios especializados en desarrollo web, bases de datos, desarrollo de software y ciberseguridad.</p>
+        <p>Contamos con un enfoque moderno y profesional, utilizando herramientas tecnológicas actuales para ofrecer soluciones seguras, funcionales y accesibles que satisfagan las necesidades de nuestros clientes.</p>
+      </div>
+    </section>
 
-  <!-- QUIÉNES SOMOS -->
-  <section class="who">
-    <div>
-      <p class="who-label">01 — Quiénes somos</p>
-      <h2>Una empresa enfocada en soluciones digitales reales</h2>
-    </div>
-    <div>
-      <p>EvoTech es una empresa enfocada en brindar soluciones tecnológicas innovadoras y eficientes para empresas, emprendedores y negocios que buscan adaptarse al mundo digital. Nuestro objetivo es ayudar a mejorar los procesos tecnológicos mediante servicios especializados en desarrollo web, bases de datos, desarrollo de software y ciberseguridad.</p>
-      <p>Contamos con un enfoque moderno y profesional, utilizando herramientas tecnológicas actuales para ofrecer soluciones seguras, funcionales y accesibles que satisfagan las necesidades de nuestros clientes.</p>
-    </div>
-  </section>
+    <  MISION Y VISION  
+    <section class="mv-section">
+      <p class="sec-tag">02 — Dirección</p>
+      <p class="sec-title">Misión y <em>Visión</em></p>
+      <div class="mv-grid">
+        <div class="mv-card mision">
+          <p class="mv-card-tag">Misión</p>
+          <h3>Lo que hacemos hoy</h3>
+          <p>Brindar servicios tecnológicos de alta calidad que permitan a empresas y usuarios optimizar sus procesos digitales mediante soluciones innovadoras, seguras y eficientes, contribuyendo al crecimiento tecnológico de nuestros clientes.</p>
+        </div>
+        <div class="mv-card vision">
+          <p class="mv-card-tag">Visión</p>
+          <h3>A dónde vamos</h3>
+          <p>Ser una empresa reconocida por su innovación, compromiso y calidad en el área de tecnologías de la información, destacando por ofrecer soluciones digitales modernas y confiables a nivel nacional e internacional.</p>
+        </div>
+      </div>
+    </section>
 
-  <!-- MISIÓN Y VISIÓN -->
-  <section>
-    <p class="section-label">02 — Dirección</p>
-    <p class="section-title">Misión y Visión</p>
-    <div class="mv-grid">
-      <div class="mv-card mision">
-        <p class="card-mono">Misión</p>
-        <h3>Lo que hacemos hoy</h3>
-        <p>Brindar servicios tecnológicos de alta calidad que permitan a empresas y usuarios optimizar sus procesos digitales mediante soluciones innovadoras, seguras y eficientes, contribuyendo al crecimiento tecnológico de nuestros clientes.</p>
+    <  VALORES  
+    <section class="values-section">
+      <p class="sec-tag">03 — Cultura</p>
+      <p class="sec-title">Nuestros <em>valores</em></p>
+      <div class="values-grid">
+        <div class="valor"><div class="valor-icon">💡</div><h4>Innovación</h4><p>Buscamos constantemente nuevas ideas y tecnologías para ofrecer mejores soluciones digitales.</p></div>
+        <div class="valor"><div class="valor-icon">🤝</div><h4>Responsabilidad</h4><p>Cumplimos con nuestros proyectos y servicios de manera profesional y eficiente.</p></div>
+        <div class="valor"><div class="valor-icon">🔍</div><h4>Honestidad</h4><p>Trabajamos con transparencia y ética en cada servicio ofrecido.</p></div>
+        <div class="valor"><div class="valor-icon">🎯</div><h4>Compromiso</h4><p>Nos enfocamos en satisfacer las necesidades y expectativas de nuestros clientes.</p></div>
+        <div class="valor"><div class="valor-icon">⭐</div><h4>Calidad</h4><p>Ofrecemos servicios modernos, funcionales y seguros para garantizar la satisfacción del cliente.</p></div>
       </div>
-      <div class="mv-card vision">
-        <p class="card-mono">Visión</p>
-        <h3>A dónde vamos</h3>
-        <p>Ser una empresa reconocida por su innovación, compromiso y calidad en el área de tecnologías de la información, destacando por ofrecer soluciones digitales modernas y confiables a nivel nacional e internacional.</p>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- VALORES -->
-  <section class="valores-section">
-    <p class="section-label">03 — Cultura</p>
-    <p class="section-title">Nuestros valores</p>
-    <div class="valores-grid">
-      <div class="valor-card">
-        <div class="valor-icon">💡</div>
-        <h4>Innovación</h4>
-        <p>Buscamos constantemente nuevas ideas y tecnologías para ofrecer mejores soluciones digitales.</p>
-      </div>
-      <div class="valor-card">
-        <div class="valor-icon">🤝</div>
-        <h4>Responsabilidad</h4>
-        <p>Cumplimos con nuestros proyectos y servicios de manera profesional y eficiente.</p>
-      </div>
-      <div class="valor-card">
-        <div class="valor-icon">🔍</div>
-        <h4>Honestidad</h4>
-        <p>Trabajamos con transparencia y ética en cada servicio ofrecido.</p>
-      </div>
-      <div class="valor-card">
-        <div class="valor-icon">🎯</div>
-        <h4>Compromiso</h4>
-        <p>Nos enfocamos en satisfacer las necesidades y expectativas de nuestros clientes.</p>
-      </div>
-      <div class="valor-card">
-        <div class="valor-icon">⭐</div>
-        <h4>Calidad</h4>
-        <p>Ofrecemos servicios modernos, funcionales y seguros para garantizar la satisfacción del cliente.</p>
-      </div>
-    </div>
-  </section>
+  </div>
 
-  <!-- OBJETIVO -->
-  <section class="objetivo">
-    <p class="mono">04 — Objetivo de la empresa</p>
-    <h2>Ofrecer servicios tecnológicos que mejoren la <span>productividad, seguridad y presencia digital</span> de empresas y emprendedores mediante herramientas modernas e innovadoras.</h2>
-  </section>
-
+  <  OBJECTIVE BANNER  
+  <div class="objective-banner">
+    <p class="sec-tag" style="color:var(--gold); margin-bottom:28px;">04 — Objetivo</p>
+    <p class="quote">Ofrecer servicios tecnológicos que mejoren la <em>productividad, seguridad y presencia digital</em> de empresas y emprendedores mediante herramientas modernas e innovadoras.</p>
+  </div>
 </main>
 
-<footer>
-  <p>© 2026 EvoTech — Todos los derechos reservados</p>
+<footer class="site-footer">
+  <span class="footer-brand">Evo<span>Tech</span></span>
+  <span class="footer-copy">© 2026 EvoTech — Todos los derechos reservados</span>
 </footer>
 
 </body>

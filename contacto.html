@@ -5,460 +5,229 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contacto — EvoTech</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 <style>
-  :root {
-    --brand:      #2563eb;
-    --brand-dark: #1e3a8a;
-    --brand-sky:  #0ea5e9;
-    --text-main:  #0f172a;
-    --text-muted: #64748b;
-    --border:     #e2e8f0;
-    --bg-page:    #f8fafc;
-    --bg-card:    #ffffff;
-  }
-
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg-page);
-    color: var(--text-main);
-    line-height: 1.6;
-  }
-
-  /* ── NAV ── */
-  header {
-    width: 100%;
-    height: 70px;
-    background: #fff;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 80px;
-    position: sticky;
-    top: 0;
-    z-index: 200;
-    box-shadow: 0 1px 8px rgba(0,0,0,0.06);
-  }
-  .logo img { height: 90px; }
-  nav ul { display: flex; list-style: none; gap: 36px; }
-  nav ul li a {
-    text-decoration: none;
-    color: var(--text-muted);
-    font-size: 15px;
-    transition: color 0.2s;
-  }
-  nav ul li a:hover { color: var(--brand); }
-
-  /* ── PAGE HEADER ── */
-  .page-header {
-    background: var(--brand-dark);
-    padding: 72px 80px 64px;
-    position: relative;
-    overflow: hidden;
-  }
-  .page-header::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 60px),
-      repeating-linear-gradient(0deg,  rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 60px);
-  }
-  .page-header .mono {
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    color: var(--brand-sky);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    position: relative;
-  }
-  .page-header h1 {
-    font-size: clamp(36px, 5vw, 60px);
-    font-weight: 300;
-    color: #fff;
-    line-height: 1.1;
-    max-width: 600px;
-    position: relative;
-  }
-  .page-header h1 span { color: var(--brand-sky); }
-  .page-header p {
-    margin-top: 20px;
-    font-size: 17px;
-    color: #94a3b8;
-    max-width: 580px;
-    position: relative;
-    line-height: 1.7;
-  }
-
-  /* ── LAYOUT PRINCIPAL ── */
   .contact-wrap {
-    padding: 72px 80px;
+    padding: 80px 60px;
     display: grid;
-    grid-template-columns: 1fr 1.4fr;
-    gap: 48px;
+    grid-template-columns: 380px 1fr;
+    gap: 60px;
     align-items: start;
   }
 
-  /* ── COLUMNA IZQUIERDA ── */
-  .info-col { display: flex; flex-direction: column; gap: 32px; }
+  .info-panel { display: flex; flex-direction: column; gap: 2px; position: sticky; top: 100px; }
 
-  .info-block {
-    background: var(--bg-card);
+  .info-card {
+    background: var(--white);
     border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 32px 28px;
+    padding: 36px 32px;
+  }
+  .info-card-label {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 24px;
   }
 
-  .block-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--text-muted);
-    margin-bottom: 20px;
+  .contact-row {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 16px 0; border-bottom: 1px solid var(--border);
   }
+  .contact-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .contact-row-icon {
+    width: 36px; height: 36px;
+    background: var(--canvas);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  .cr-label {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-40); margin-bottom: 4px;
+  }
+  .cr-val { font-size: 14px; color: var(--ink); font-weight: 400; }
+  .cr-sub { font-size: 12px; color: var(--ink-40); margin-top: 2px; }
 
-  .contact-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
+  .social-card {
+    background: var(--canvas-2);
+    border: 1px solid var(--border);
+    border-top: none;
+    padding: 28px 32px;
   }
-  .contact-item:last-child { border-bottom: none; padding-bottom: 0; }
-
-  .contact-icon {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    background: #eff6ff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 17px;
-    flex-shrink: 0;
-  }
-
-  .contact-item-text .item-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-muted);
-    margin-bottom: 3px;
-  }
-  .contact-item-text .item-value {
-    font-size: 15px;
-    color: var(--text-main);
-  }
-  .contact-item-text .item-sub {
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-top: 2px;
-  }
-
-  /* REDES */
-  .social-grid { display: flex; flex-direction: column; gap: 10px; }
-
   .social-link {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 12px 16px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    text-decoration: none;
-    background: var(--bg-page);
-    transition: border-color 0.2s, background 0.2s;
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px 14px; text-decoration: none;
+    border: 1px solid var(--border); background: var(--white);
+    margin-bottom: 8px; transition: all 0.25s;
   }
-  .social-link:hover { border-color: var(--brand); background: #eff6ff; }
-
-  .social-icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    flex-shrink: 0;
-  }
+  .social-link:last-child { margin-bottom: 0; }
+  .social-link:hover { border-color: var(--gold); background: var(--gold-pale); }
+  .social-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+  .social-icon img { width: 100%; height: 100%; object-fit: cover; }
   .social-icon.fb { background: #1877f2; }
-  .social-icon.ig { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+  .social-icon.ig { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366); }
   .social-icon.li { background: #0a66c2; }
+  .social-name { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .social-handle { font-size: 11px; color: var(--ink-40); }
+  .social-arrow { margin-left: auto; font-size: 14px; color: var(--ink-40); transition: color 0.2s; }
+  .social-link:hover .social-arrow { color: var(--gold); }
 
-  .social-name  { font-size: 14px; font-weight: 500; color: var(--text-main); }
-  .social-handle { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
-  .social-arrow { margin-left: auto; font-size: 16px; color: var(--text-muted); }
-
-  /* ── FORMULARIO ── */
-  .form-card {
-    background: var(--bg-card);
+  .form-panel {
+    background: var(--white);
     border: 1px solid var(--border);
-    border-top: 4px solid var(--brand);
-    border-radius: 16px;
-    padding: 44px 40px;
+    border-top: 3px solid var(--gold);
+    padding: 52px 48px;
   }
-  .form-card .block-label { margin-bottom: 8px; }
-  .form-card h2 {
-    font-size: 26px;
-    font-weight: 500;
-    color: var(--text-main);
-    margin-bottom: 32px;
+  .form-panel h2 {
+    font-family: var(--font-display); font-size: 36px;
+    font-weight: 300; color: var(--ink); margin-bottom: 8px; margin-top: 12px;
   }
+  .form-panel h2 em { font-style: italic; color: var(--gold); }
+  .form-subtitle { font-size: 14px; font-weight: 300; color: var(--ink-40); margin-bottom: 40px; }
 
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-  .form-group { display: flex; flex-direction: column; gap: 7px; }
-  .form-group.full { grid-column: 1 / -1; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .form-grid .full { grid-column: 1 / -1; }
 
-  .form-group label {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-main);
+  .btn-submit {
+    width: 100%; margin-top: 28px;
+    padding: 16px; background: var(--ink); color: var(--white);
+    border: none; font-family: var(--font-body); font-size: 13px;
+    font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.3s var(--ease-out); position: relative; overflow: hidden;
   }
-
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    padding: 12px 16px;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    color: var(--text-main);
-    background: var(--bg-page);
-    transition: border-color 0.2s, box-shadow 0.2s;
-    outline: none;
-    width: 100%;
+  .btn-submit::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 2px; background: var(--gold);
+    transition: width 0.4s var(--ease-out);
   }
-  .form-group input::placeholder,
-  .form-group textarea::placeholder { color: #b0bec5; }
-
-  .form-group input:focus,
-  .form-group select:focus,
-  .form-group textarea:focus {
-    border-color: var(--brand);
-    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
-    background: #fff;
-  }
-
-  .form-group select {
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 16px center;
-    padding-right: 40px;
-  }
-  .form-group textarea { resize: vertical; min-height: 120px; }
-
-  .btn-send {
-    margin-top: 28px;
-    width: 100%;
-    padding: 15px;
-    background: var(--brand);
-    color: #fff;
-    border: none;
-    border-radius: 50px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.2s;
-  }
-  .btn-send:hover { background: var(--brand-dark); transform: scale(1.02); }
+  .btn-submit:hover { background: var(--blue-accent); }
+  .btn-submit:hover::after { width: 100%; }
 
   .success-msg {
-    display: none;
-    margin-top: 16px;
-    padding: 14px 18px;
-    background: #f0fdf4;
-    border: 1px solid #bbf7d0;
-    border-radius: 10px;
-    color: #166534;
-    font-size: 14px;
-    text-align: center;
+    display: none; margin-top: 20px;
+    padding: 16px 20px;
+    border: 1px solid rgba(201,169,110,0.3);
+    background: var(--gold-pale);
+    font-size: 14px; color: var(--ink);
+    text-align: center; letter-spacing: 0.02em;
   }
 
-  /* ── FRASE FINAL ── */
-  .closing {
-    margin: 0 80px 80px;
-    background: var(--brand-dark);
-    border-radius: 16px;
-    padding: 56px 60px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
+  .closing-strip {
+    background: var(--ink); padding: 80px 60px;
+    text-align: center; position: relative; overflow: hidden;
   }
-  .closing::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 60px),
-      repeating-linear-gradient(0deg,  rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 60px);
+  .closing-strip::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(201,169,110,0.05) 0%, transparent 70%);
   }
-  .closing p {
-    font-size: clamp(18px, 3vw, 26px);
-    font-weight: 300;
-    color: #fff;
-    line-height: 1.6;
-    position: relative;
+  .closing-strip p {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 3vw, 34px); font-weight: 300;
+    color: rgba(255,255,255,0.7); line-height: 1.5; position: relative;
   }
-  .closing p span { color: var(--brand-sky); font-style: italic; }
+  .closing-strip p em { font-style: italic; color: var(--gold-light); }
 
-  /* ── FOOTER ── */
-  footer {
-    background: var(--brand-dark);
-    color: #e5e7eb;
-    text-align: center;
-    padding: 24px;
-    font-size: 14px;
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 960px) {
-    header { padding: 14px 20px; height: auto; flex-wrap: wrap; gap: 12px; }
-    nav ul { gap: 20px; flex-wrap: wrap; }
-    .page-header { padding: 48px 24px 40px; }
-    .contact-wrap { grid-template-columns: 1fr; padding: 48px 20px; gap: 32px; }
+  @media (max-width: 900px) {
+    .contact-wrap { grid-template-columns: 1fr; padding: 60px 24px; }
+    .info-panel { position: static; }
     .form-grid { grid-template-columns: 1fr; }
-    .form-card { padding: 32px 24px; }
-    .closing { margin: 0 20px 48px; padding: 40px 28px; }
+    .form-panel { padding: 36px 24px; }
+    .closing-strip { padding: 60px 24px; }
   }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">
-    <img src="imagenes/logo.png" alt="Logo de EvoTech">
-  </div>
-  <nav aria-label="Navegación principal">
-    <ul>
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="servicios.html">Servicios</a></li>
-      <li><a href="nosotros.html">Sobre nosotros</a></li>
-      <li><a href="contacto.html">Contacto</a></li>
-    </ul>
-  </nav>
-</header>
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="imagenes/logo.png" alt="EvoTech">
+    <span class="nav-wordmark">Evo<span>Tech</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="servicios.html">Servicios</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+    <li><a href="contacto.html" class="active">Contacto</a></li>
+    <li><a href="carrito.html" class="nav-cart-btn">Carrito</a></li>
+  </ul>
+</nav>
 
-<div class="page-header">
-  <p class="mono">EvoTech — Contáctanos</p>
-  <h1>Hablemos de tu <span>próximo proyecto</span></h1>
-  <p>¿Tienes alguna duda o deseas mejorar tu negocio mediante soluciones tecnológicas? Estamos preparados para ayudarte. Contáctanos y lleva tu negocio al siguiente nivel digital.</p>
-</div>
+<header class="page-hero page-hero-contact">
+  <p class="page-hero-tag">Contáctanos</p>
+  <h1>Hablemos de tu<br><em>próximo proyecto</em></h1>
+  <p>¿Tienes alguna duda o deseas mejorar tu negocio? Estamos listos para ayudarte a llevar tu empresa al siguiente nivel digital.</p>
+</header>
 
 <div class="contact-wrap">
 
-  <!-- COLUMNA IZQUIERDA -->
-  <div class="info-col">
-
-    <div class="info-block">
-      <p class="block-label">Información de contacto</p>
-
-      <div class="contact-item">
-        <div class="contact-icon">📧</div>
-        <div class="contact-item-text">
-          <p class="item-label">Correo electrónico</p>
-          <p class="item-value">evotech_contacto@gmail.com</p>
-        </div>
+  <  LEFT: Info  
+  <div class="info-panel">
+    <div class="info-card">
+      <p class="info-card-label">Información de contacto</p>
+      <div class="contact-row">
+        <div class="contact-row-icon">📧</div>
+        <div><p class="cr-label">Correo</p><p class="cr-val">evotech_contacto@gmail.com</p></div>
       </div>
-
-      <div class="contact-item">
-        <div class="contact-icon">📱</div>
-        <div class="contact-item-text">
-          <p class="item-label">Teléfono</p>
-          <p class="item-value">+52 81 1234 5678</p>
-        </div>
+      <div class="contact-row">
+        <div class="contact-row-icon">📱</div>
+        <div><p class="cr-label">Teléfono</p><p class="cr-val">+52 81 1234 5678</p></div>
       </div>
-
-      <div class="contact-item">
-        <div class="contact-icon">📍</div>
-        <div class="contact-item-text">
-          <p class="item-label">Ubicación</p>
-          <p class="item-value"> Nuevo León, México</p>
-        </div>
+      <div class="contact-row">
+        <div class="contact-row-icon">📍</div>
+        <div><p class="cr-label">Ubicación</p><p class="cr-val">Nuevo León, México</p></div>
       </div>
-
-      <div class="contact-item">
-        <div class="contact-icon">🕐</div>
-        <div class="contact-item-text">
-          <p class="item-label">Horario de atención</p>
-          <p class="item-value">Lunes a Viernes</p>
-          <p class="item-sub">9:00 AM — 6:00 PM</p>
+      <div class="contact-row">
+        <div class="contact-row-icon">🕐</div>
+        <div>
+          <p class="cr-label">Horario</p>
+          <p class="cr-val">Lunes a Viernes</p>
+          <p class="cr-sub">9:00 AM — 6:00 PM</p>
         </div>
       </div>
     </div>
 
-    <div class="info-block">
-      <p class="block-label">Redes sociales</p>
-      <div class="social-grid">
-
-        <a href="#" class="social-link">
-          <div class="social-icon fb"><img src="imagenes/facebook.png" alt="Facebook"></div>
-          <div>
-            <p class="social-name">Facebook</p>
-            <p class="social-handle">EvoTech Official</p>
-          </div>
-          <span class="social-arrow">→</span>
-        </a>
-
-        <a href="#" class="social-link">
-          <div class="social-icon ig"><img src="imagenes/instagram.png" alt="Instagram"></div>
-          <div>
-            <p class="social-name">Instagram</p>
-            <p class="social-handle">@EvoTechMX</p>
-          </div>
-          <span class="social-arrow">→</span>
-        </a>
-
-        <a href="#" class="social-link">
-          <div class="social-icon li"><img src="imagenes/linkedin.png" alt="LinkedIn"></div>
-          <div>
-            <p class="social-name">LinkedIn</p>
-            <p class="social-handle">EvoTech Solutions</p>
-          </div>
-          <span class="social-arrow">→</span>
-        </a>
-
-      </div>
+    <div class="social-card">
+      <p class="info-card-label">Redes sociales</p>
+      <a href="#" class="social-link">
+        <div class="social-icon fb"><img src="imagenes/facebook.png" alt="fb"></div>
+        <div><p class="social-name">Facebook</p><p class="social-handle">EvoTech Official</p></div>
+        <span class="social-arrow">→</span>
+      </a>
+      <a href="#" class="social-link">
+        <div class="social-icon ig"><img src="imagenes/instagram.png" alt="ig"></div>
+        <div><p class="social-name">Instagram</p><p class="social-handle">@EvoTechMX</p></div>
+        <span class="social-arrow">→</span>
+      </a>
+      <a href="#" class="social-link">
+        <div class="social-icon li"><img src="imagenes/linkedin.png" alt="li"></div>
+        <div><p class="social-name">LinkedIn</p><p class="social-handle">EvoTech Solutions</p></div>
+        <span class="social-arrow">→</span>
+      </a>
     </div>
-
   </div>
 
-  <div class="form-card">
-    <p class="block-label">Formulario de contacto</p>
-    <h2>Envíanos un mensaje</h2>
+  <  RIGHT: Form  
+  <div class="form-panel">
+    <p class="sec-tag">Formulario de contacto</p>
+    <h2>Envíanos un <em>mensaje</em></h2>
+    <p class="form-subtitle">Te responderemos en un plazo de 24 horas.</p>
 
     <div class="form-grid">
-
-      <div class="form-group full">
-        <label for="nombre">Nombre completo</label>
-        <input type="text" id="nombre" placeholder="Ingresa tu nombre">
+      <div class="field full">
+        <label>Nombre completo</label>
+        <input type="text" id="nombre" placeholder="Tu nombre completo">
       </div>
-
-      <div class="form-group">
-        <label for="correo">Correo electrónico</label>
-        <input type="email" id="correo" placeholder="Ingresa tu correo">
+      <div class="field">
+        <label>Correo electrónico</label>
+        <input type="email" id="correo" placeholder="tu@correo.com">
       </div>
-
-      <div class="form-group">
-        <label for="telefono">Número telefónico</label>
-        <input type="tel" id="telefono" placeholder="Ingresa tu teléfono">
+      <div class="field">
+        <label>Número telefónico</label>
+        <input type="tel" id="telefono" placeholder="+52 81 0000 0000">
       </div>
-
-      <div class="form-group full">
-        <label for="servicio">Servicio de interés</label>
+      <div class="field full">
+        <label>Servicio de interés</label>
         <select id="servicio">
           <option value="" disabled selected>Selecciona un servicio</option>
           <option value="web">Desarrollo de páginas web</option>
@@ -467,48 +236,45 @@
           <option value="cyber">Ciberseguridad</option>
         </select>
       </div>
-
-      <div class="form-group full">
-        <label for="mensaje">Mensaje</label>
-        <textarea id="mensaje" placeholder="Escribe tu mensaje o solicitud"></textarea>
+      <div class="field full">
+        <label>Mensaje</label>
+        <textarea id="mensaje" placeholder="Describe tu proyecto o solicitud..."></textarea>
       </div>
-
     </div>
 
-    <button class="btn-send" onclick="enviarFormulario()">Enviar mensaje →</button>
+    <button class="btn-submit" onclick="enviarFormulario()">Enviar mensaje →</button>
     <div class="success-msg" id="success-msg">
-      ✅ ¡Mensaje enviado! Nos pondremos en contacto contigo pronto.
+      ✓ Mensaje enviado — Nos pondremos en contacto contigo pronto.
     </div>
   </div>
 
 </div>
 
-<div class="closing">
-  <p>"En EvoTech <span>transformamos ideas</span> en soluciones digitales innovadoras."</p>
+<div class="closing-strip">
+  <p>«En EvoTech <em>transformamos ideas</em> en soluciones digitales innovadoras.»</p>
 </div>
 
-<footer>
-  <p>© 2026 EvoTech — Todos los derechos reservados</p>
+<footer class="site-footer">
+  <span class="footer-brand">Evo<span>Tech</span></span>
+  <span class="footer-copy">© 2026 EvoTech — Todos los derechos reservados</span>
 </footer>
 
 <script>
-  function enviarFormulario() {
-    const nombre   = document.getElementById('nombre').value.trim();
-    const correo   = document.getElementById('correo').value.trim();
-    const servicio = document.getElementById('servicio').value;
-    const mensaje  = document.getElementById('mensaje').value.trim();
-
-    if (!nombre || !correo || !servicio || !mensaje) {
-      alert('Por favor completa los campos obligatorios: nombre, correo, servicio y mensaje.');
-      return;
-    }
-
-    document.getElementById('success-msg').style.display = 'block';
-    document.querySelector('.btn-send').disabled = true;
-    document.querySelector('.btn-send').textContent = 'Mensaje enviado ✓';
-    document.querySelector('.btn-send').style.background = '#16a34a';
+function enviarFormulario() {
+  const nombre = document.getElementById('nombre').value.trim();
+  const correo = document.getElementById('correo').value.trim();
+  const servicio = document.getElementById('servicio').value;
+  const mensaje = document.getElementById('mensaje').value.trim();
+  if (!nombre || !correo || !servicio || !mensaje) {
+    alert('Por favor completa los campos obligatorios.');
+    return;
   }
+  document.getElementById('success-msg').style.display = 'block';
+  const btn = document.querySelector('.btn-submit');
+  btn.disabled = true;
+  btn.textContent = 'Enviado ✓';
+  btn.style.background = '#b8945a';
+}
 </script>
-
 </body>
 </html>

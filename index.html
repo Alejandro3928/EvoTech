@@ -3,109 +3,515 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EvoTech — Soluciones en TI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <title>EvoTech</title>
-</head>
+  <style>
+    .hero {
+      min-height: 100vh;
+      background: var(--ink);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero.hero-index {
+      background: linear-gradient(180deg, rgba(10,10,15,0.85), rgba(10,10,15,0.65)), url("imagenes/inicio.jpg") center/cover no-repeat;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 80% 50%, rgba(201,169,110,0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 20% 20%, rgba(26,58,92,0.3) 0%, transparent 60%);
+      pointer-events: none;
+    }
 
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(201,169,110,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,169,110,0.04) 1px, transparent 1px);
+      background-size: 80px 80px;
+      pointer-events: none;
+    }
+
+    .hero-left {
+      padding: 200px 60px 80px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      opacity: 0;
+      animation: fadeUp 0.8s var(--ease-out) 0.2s both;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 6.5vw, 96px);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease-out) 0.35s both;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold-light);
+      display: block;
+    }
+
+    .hero-desc {
+      margin-top: 32px;
+      font-size: 16px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.45);
+      max-width: 400px;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease-out) 0.5s both;
+    }
+
+    .hero-actions {
+      margin-top: 48px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease-out) 0.65s both;
+    }
+
+    .hero-stats {
+      margin-top: auto;
+      padding-top: 64px;
+      display: flex;
+      gap: 48px;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease-out) 0.8s both;
+    }
+
+    .hero-stat-num {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1;
+    }
+    .hero-stat-num span { color: var(--gold); }
+    .hero-stat-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.06em;
+      margin-top: 6px;
+    }
+
+    .hero-right {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 60px 80px 0;
+    }
+
+    .hero-cards {
+      position: relative;
+      width: 360px;
+      height: 440px;
+    }
+
+    .hero-card {
+      position: absolute;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      padding: 28px;
+      width: 260px;
+      animation: floatCard 4s ease-in-out infinite;
+    }
+    .hero-card:nth-child(1) { top: 0; left: 0; animation-delay: 0s; }
+    .hero-card:nth-child(2) { top: 80px; left: 100px; animation-delay: 0.5s; }
+    .hero-card:nth-child(3) { top: 220px; left: 40px; animation-delay: 1s; }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .hero-card-icon {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--border-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      font-size: 16px;
+    }
+    .hero-card h4 {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 6px;
+    }
+    .hero-card p {
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+      line-height: 1.5;
+    }
+
+    .intro-strip {
+      background: var(--white);
+      padding: 80px 60px;
+      display: grid;
+      grid-template-columns: 1fr 2px 1fr;
+      gap: 60px;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .strip-divider { background: var(--border); height: 100%; }
+    .intro-strip h2 {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--ink);
+    }
+    .intro-strip h2 em { font-style: italic; color: var(--gold); }
+    .intro-strip p {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--ink-80);
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+
+    .services-section {
+      padding: 100px 60px;
+      background: var(--canvas);
+    }
+    .services-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 56px;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+    }
+    .svc-card {
+      background: var(--white);
+      padding: 40px 32px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s var(--ease-out);
+    }
+    .svc-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--gold);
+      transition: width 0.4s var(--ease-out);
+    }
+    .svc-card:hover { background: var(--ink); }
+    .svc-card:hover::after { width: 100%; }
+    .svc-card:hover .svc-num { color: var(--gold); }
+    .svc-card:hover .svc-title { color: var(--white); }
+    .svc-card:hover .svc-desc { color: rgba(255,255,255,0.4); }
+    .svc-card:hover .svc-icon { border-color: rgba(201,169,110,0.3); background: rgba(201,169,110,0.1); }
+
+    .svc-icon {
+      width: 44px; height: 44px;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; margin-bottom: 28px;
+      transition: all 0.4s;
+    }
+    .svc-num {
+      font-family: var(--font-mono);
+      font-size: 10px; color: var(--gold);
+      letter-spacing: 0.15em; margin-bottom: 14px;
+      transition: color 0.4s;
+    }
+    .svc-title {
+      font-family: var(--font-display);
+      font-size: 22px; font-weight: 400;
+      color: var(--ink); margin-bottom: 14px;
+      line-height: 1.2; transition: color 0.4s;
+    }
+    .svc-desc {
+      font-size: 14px; font-weight: 300;
+      color: var(--ink-80); line-height: 1.7;
+      transition: color 0.4s;
+    }
+
+    .about-banner {
+      background: var(--ink);
+      padding: 100px 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-banner::before {
+      content: '';
+      position: absolute;
+      bottom: -50%; left: -10%;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(201,169,110,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .about-banner h2 {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4vw, 60px);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.1;
+      position: relative;
+    }
+    .about-banner h2 em { font-style: italic; color: var(--gold-light); }
+    .about-right p {
+      font-size: 16px; font-weight: 300;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.9; margin-bottom: 24px;
+    }
+    .about-divider {
+      width: 40px; height: 1px; background: var(--gold); margin: 24px 0;
+    }
+
+    .contact-strip {
+      background: var(--canvas-2);
+      padding: 80px 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+    }
+    .contact-item-box {
+      background: var(--canvas-2);
+      padding: 48px 40px;
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+    .contact-item-icon {
+      font-size: 22px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .contact-item-label {
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .contact-item-val {
+      font-size: 15px; color: var(--ink);
+      font-weight: 400;
+    }
+
+    @media (max-width: 1100px) {
+      .services-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 140px 24px 60px; }
+      .intro-strip { grid-template-columns: 1fr; padding: 60px 24px; }
+      .strip-divider { display: none; }
+      .services-section { padding: 60px 24px; }
+      .services-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .about-banner { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; }
+      .contact-strip { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .services-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
 <body>
 
-  <header>
-    <div class="logo">
-      <img src="imagenes/logo.png" alt="Logo de EvoTech">
-    </div>
-    <nav aria-label="Navegación principal">
-      <ul>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="servicios.html">Servicios</a></li>
-        <li><a href="nosotros.html">Sobre nosotros</a></li>
-        <li><a href="contacto.html">Contacto</a></li>
-      </ul>
-    </nav>
-  </header>
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="imagenes/logo.png" alt="EvoTech">
+    <span class="nav-wordmark">Evo<span>Tech</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Inicio</a></li>
+    <li><a href="servicios.html">Servicios</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+    <li><a href="contacto.html">Contacto</a></li>
+    <li><a href="carrito.html" class="nav-cart-btn">Carrito</a></li>
+  </ul>
+</nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Soluciones en TI</h1>
-      <p>
-        EvoTech es una empresa especializada en desarrollo web,
-        bases de datos, software y ciberseguridad, ofreciendo
-        soluciones tecnológicas innovadoras para empresas y negocios.
-      </p>
-      <a href="#servicios" class="btn">Conocer más</a>
-    </div>
-  </section>
-
-  <section class="intro">
-    <h2>Soluciones Tecnológicas Inteligentes</h2>
-    <p>
-      En EvoTech desarrollamos soluciones digitales modernas para empresas,
-      emprendedores y negocios que buscan innovar mediante la tecnología.
+<section class="hero hero-index">
+  <div class="hero-left">
+    <p class="hero-eyebrow">EvoTech — Soluciones en TI</p>
+    <h1>Tecnología<em>que evoluciona</em>contigo</h1>
+    <p class="hero-desc">
+      Desarrollo web, bases de datos, software y ciberseguridad.
+      Soluciones digitales diseñadas para empresas que buscan crecer.
     </p>
-    <a href="#servicios" class="btn">Ver Servicios</a>
-  </section>
-
-  <section class="services" id="servicios">
-    <h2>Nuestros Servicios</h2>
-    <div class="cards">
-
-      <div class="card">
-        <h3>Desarrollo de Páginas Web</h3>
-        <p>
-          Diseñamos páginas web modernas, responsivas y profesionales
-          para negocios, empresas y emprendedores.
-        </p>
-      </div>
-
-      <div class="card">
-        <h3>Base de Datos</h3>
-        <p>
-          Creamos y administramos bases de datos seguras y eficientes
-          para el almacenamiento y organización de información.
-        </p>
-      </div>
-
-      <div class="card">
-        <h3>Desarrollo de Software</h3>
-        <p>
-          Desarrollamos software personalizado para automatizar procesos
-          y mejorar la productividad empresarial.
-        </p>
-      </div>
-
-      <div class="card">
-        <h3>Ciberseguridad</h3>
-        <p>
-          Protegemos sistemas y datos mediante herramientas de seguridad
-          informática y prevención de amenazas digitales.
-        </p>
-      </div>
-
+    <div class="hero-actions">
+      <a href="servicios.html" class="btn-dark">Ver servicios →</a>
+      <a href="contacto.html" class="btn-outline" style="color:rgba(255,255,255,0.6);border-color:rgba(255,255,255,0.15);">Contáctanos</a>
     </div>
-  </section>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">4<span>+</span></div>
+        <div class="hero-stat-label">Servicios especializados</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">100<span>%</span></div>
+        <div class="hero-stat-label">Soluciones a medida</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">NL<span>,</span> MX</div>
+        <div class="hero-stat-label">Nuevo León, México</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-cards">
+      <div class="hero-card">
+        <div class="hero-card-icon">🌐</div>
+        <h4>Desarrollo Web</h4>
+        <p>Páginas modernas, responsivas y profesionales</p>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-icon">🔒</div>
+        <h4>Ciberseguridad</h4>
+        <p>Protección de sistemas y datos digitales</p>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-icon">⚙️</div>
+        <h4>Software a Medida</h4>
+        <p>Automatización de procesos empresariales</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <section class="about" id="nosotros">
-    <h2>Sobre Nosotros</h2>
-    <p>
-      EvoTech es una empresa enfocada en brindar servicios tecnológicos
-      innovadores y accesibles. Nuestro objetivo es ayudar a empresas,
-      estudiantes y emprendedores a crecer digitalmente mediante soluciones
-      modernas, eficientes y seguras.
-    </p>
-  </section>
+<div class="intro-strip">
+  <div>
+    <h2>Soluciones<br><em>digitales inteligentes</em></h2>
+  </div>
+  <div class="strip-divider"></div>
+  <div>
+    <p>En EvoTech desarrollamos soluciones digitales modernas para empresas, emprendedores y negocios que buscan innovar mediante la tecnología.</p>
+    <a href="servicios.html" class="btn-dark">Explorar servicios →</a>
+  </div>
+</div>
 
-  <section class="contact" id="contacto">
-    <h2>Contacto</h2>
-    <p>📧 evotech_contacto@gmail.com</p>
-    <p>📱 +52 81 1234 5678</p>
-    <p>📍 Nuevo León, México</p>
-  </section>
+<section class="services-section" id="servicios">
+  <div class="services-header">
+    <div>
+      <p class="sec-tag">Nuestros servicios</p>
+      <p class="sec-title">Lo que <em>construimos</em></p>
+    </div>
+    <a href="servicios.html" class="btn-outline">Ver catálogo completo</a>
+  </div>
+  <div class="services-grid">
+    <div class="svc-card fade-up">
+      <div class="svc-icon">🌐</div>
+      <p class="svc-num">01 / 04</p>
+      <h3 class="svc-title">Desarrollo Web</h3>
+      <p class="svc-desc">Páginas web modernas, responsivas y funcionales para empresas y emprendedores.</p>
+    </div>
+    <div class="svc-card fade-up">
+      <div class="svc-icon">🗄️</div>
+      <p class="svc-num">02 / 04</p>
+      <h3 class="svc-title">Base de Datos</h3>
+      <p class="svc-desc">Diseño y administración de bases de datos seguras y eficientes.</p>
+    </div>
+    <div class="svc-card fade-up">
+      <div class="svc-icon">⚙️</div>
+      <p class="svc-num">03 / 04</p>
+      <h3 class="svc-title">Desarrollo de Software</h3>
+      <p class="svc-desc">Software personalizado para automatizar procesos y mejorar la productividad.</p>
+    </div>
+    <div class="svc-card fade-up">
+      <div class="svc-icon">🔒</div>
+      <p class="svc-num">04 / 04</p>
+      <h3 class="svc-title">Ciberseguridad</h3>
+      <p class="svc-desc">Protección de sistemas y datos contra amenazas digitales.</p>
+    </div>
+  </div>
+</section>
 
-  <footer>
-    <p>© 2026 EvoTech - Todos los derechos reservados</p>
-  </footer>
+<section class="about-banner" id="nosotros">
+  <div>
+    <p class="sec-tag" style="color:var(--gold)">Sobre nosotros</p>
+    <h2>Una empresa enfocada en<br><em>soluciones reales</em></h2>
+  </div>
+  <div class="about-right">
+    <p>EvoTech es una empresa especializada en soluciones tecnológicas innovadoras. Nuestro objetivo es ayudar a empresas, estudiantes y emprendedores a crecer digitalmente mediante soluciones modernas, eficientes y seguras.</p>
+    <div class="about-divider"></div>
+    <a href="nosotros.html" class="btn-gold">Conocer más →</a>
+  </div>
+</section>
+
+<div class="contact-strip" id="contacto">
+  <div class="contact-item-box">
+    <span class="contact-item-icon">📧</span>
+    <div>
+      <p class="contact-item-label">Correo electrónico</p>
+      <p class="contact-item-val">evotech_contacto@gmail.com</p>
+    </div>
+  </div>
+  <div class="contact-item-box">
+    <span class="contact-item-icon">📱</span>
+    <div>
+      <p class="contact-item-label">Teléfono</p>
+      <p class="contact-item-val">+52 81 1234 5678</p>
+    </div>
+  </div>
+  <div class="contact-item-box">
+    <span class="contact-item-icon">📍</span>
+    <div>
+      <p class="contact-item-label">Ubicación</p>
+      <p class="contact-item-val">Nuevo León, México</p>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <span class="footer-brand">Evo<span>Tech</span></span>
+  <span class="footer-copy">© 2026 EvoTech — Todos los derechos reservados</span>
+</footer>
 
 </body>
 </html>

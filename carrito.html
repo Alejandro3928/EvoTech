@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carrito — EvoTech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .cart-wrap {
+    padding: 72px 60px;
+    display: grid; grid-template-columns: 1fr 360px;
+    gap: 48px; align-items: start;
+  }
+  .view-label {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 8px;
+  }
+  .view-title {
+    font-family: var(--font-display); font-size: 32px; font-weight: 300;
+    color: var(--ink); margin-bottom: 32px;
+  }
+
+  .cart-empty {
+    background: var(--white); border: 1px solid var(--border);
+    padding: 80px 40px; text-align: center;
+  }
+  .cart-empty .empty-icon { font-size: 48px; margin-bottom: 20px; display: block; opacity: 0.3; }
+  .cart-empty p { font-size: 15px; color: var(--ink-40); margin-bottom: 24px; }
+
+  .cart-list { display: flex; flex-direction: column; gap: 2px; background: var(--border); }
+  .cart-item {
+    background: var(--white); padding: 24px 28px;
+    display: flex; align-items: center; gap: 20px;
+    animation: fadeUp 0.4s var(--ease-out) both;
+  }
+  .item-badge {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.1em; padding: 4px 12px;
+    border: 1px solid var(--border-gold); color: var(--gold);
+    flex-shrink: 0; white-space: nowrap;
+  }
+  .item-name { flex: 1; font-size: 15px; font-weight: 400; color: var(--ink); }
+  .item-price {
+    font-family: var(--font-mono); font-size: 15px;
+    font-weight: 500; color: var(--ink); white-space: nowrap;
+  }
+  .item-del {
+    width: 32px; height: 32px; background: none; border: 1px solid var(--border);
+    cursor: pointer; font-size: 14px; color: var(--ink-40);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; flex-shrink: 0;
+  }
+  .item-del:hover { border-color: #dc2626; color: #dc2626; }
+
+  .summary-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    padding: 36px 32px; position: sticky; top: 90px;
+  }
+  .summary-label {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-40); margin-bottom: 24px;
+  }
+  .summary-row {
+    display: flex; justify-content: space-between;
+    font-size: 13px; color: var(--ink-80);
+    padding: 8px 0; border-bottom: 1px solid var(--border);
+  }
+  .summary-row:last-of-type { border-bottom: none; }
+  .summary-total {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-top: 20px; padding-top: 20px; border-top: 2px solid var(--ink);
+  }
+  .total-label { font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; }
+  .total-amount {
+    font-family: var(--font-mono); font-size: 24px;
+    font-weight: 700; color: var(--ink);
+  }
+  .total-iva { font-size: 11px; color: var(--ink-40); text-align: right; margin-top: 6px; }
+
+  .btn-checkout {
+    width: 100%; margin-top: 24px; padding: 15px;
+    background: var(--ink); color: var(--white);
+    border: none; font-family: var(--font-body); font-size: 12px;
+    font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+    cursor: pointer; transition: background 0.3s; position: relative; overflow: hidden;
+  }
+  .btn-checkout::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 2px; background: var(--gold);
+    transition: width 0.4s var(--ease-out);
+  }
+  .btn-checkout:hover { background: var(--blue-accent); }
+  .btn-checkout:hover::after { width: 100%; }
+  .btn-checkout:disabled { background: var(--border); color: var(--ink-40); cursor: not-allowed; }
+
+  .payment-wrap {
+    padding: 72px 60px;
+    display: grid; grid-template-columns: 1fr 360px;
+    gap: 48px; align-items: start;
+    display: none;
+  }
+
+  .card-preview {
+    background: linear-gradient(135deg, var(--ink) 0%, var(--blue-accent) 100%);
+    padding: 28px 32px; margin-bottom: 36px;
+    position: relative; overflow: hidden; aspect-ratio: 1.6;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .card-preview::before {
+    content: ''; position: absolute; width: 200px; height: 200px;
+    border-radius: 50%; border: 1px solid rgba(255,255,255,0.06);
+    top: -60px; right: -60px;
+  }
+  .card-chip { width: 40px; height: 30px; background: var(--gold); border-radius: 4px; opacity: 0.9; }
+  .card-num {
+    font-family: var(--font-mono); font-size: 18px;
+    color: rgba(255,255,255,0.85); letter-spacing: 0.15em;
+    margin: 20px 0 8px;
+  }
+  .card-bottom { display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.4); }
+  .card-brand { font-family: var(--font-display); font-size: 20px; color: rgba(255,255,255,0.2); }
+
+  .pay-form { background: var(--white); border: 1px solid var(--border); padding: 40px 36px; }
+  .pay-form h2 { font-family: var(--font-display); font-size: 28px; font-weight: 300; color: var(--ink); margin-bottom: 28px; }
+  .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pay-divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+  .btn-confirm {
+    width: 100%; margin-top: 24px; padding: 15px;
+    background: var(--gold); color: var(--white);
+    border: none; font-family: var(--font-body); font-size: 12px;
+    font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+    cursor: pointer; transition: background 0.3s;
+  }
+  .btn-confirm:hover { background: #b8945a; }
+
+  .btn-back {
+    width: 100%; margin-top: 10px; padding: 13px;
+    background: transparent; color: var(--ink-80);
+    border: 1px solid var(--border); font-family: var(--font-body);
+    font-size: 12px; font-weight: 400; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer; transition: all 0.25s;
+  }
+  .btn-back:hover { border-color: var(--gold); color: var(--gold); }
+
+  .invoice-wrap {
+    padding: 72px 60px;
+    max-width: 860px; margin: 0 auto;
+    display: none;
+  }
+  .invoice {
+    background: var(--white); border: 1px solid var(--border);
+    padding: 60px 64px;
+  }
+  .invoice-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding-bottom: 36px; margin-bottom: 36px;
+    border-bottom: 2px solid var(--border);
+  }
+  .inv-logo { font-family: var(--font-display); font-size: 28px; font-weight: 300; color: var(--ink); }
+  .inv-logo span { color: var(--gold); }
+  .inv-meta { text-align: right; font-size: 13px; color: var(--ink-80); line-height: 1.9; }
+  .inv-meta strong { color: var(--ink); }
+  .inv-badge {
+    display: inline-block; padding: 4px 14px;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--gold);
+    border: 1px solid var(--border-gold); background: var(--gold-pale);
+    margin-bottom: 8px;
+  }
+
+  .inv-section { margin-bottom: 32px; }
+  .inv-section h4 {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-40);
+    margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  }
+
+  .inv-table { width: 100%; border-collapse: collapse; }
+  .inv-table th {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-40); text-align: left;
+    padding: 10px 12px; border-bottom: 1px solid var(--border);
+  }
+  .inv-table td { padding: 16px 12px; font-size: 14px; border-bottom: 1px solid var(--border); }
+  .inv-table tr:last-child td { border-bottom: none; }
+  .inv-table .price { font-family: var(--font-mono); font-weight: 500; color: var(--gold); text-align: right; }
+
+  .inv-totals { width: 280px; margin-left: auto; margin-top: 16px; }
+  .inv-totals .row {
+    display: flex; justify-content: space-between;
+    font-size: 13px; padding: 7px 0;
+    border-bottom: 1px solid var(--border); color: var(--ink-80);
+  }
+  .inv-totals .row.total {
+    font-size: 16px; font-weight: 600; color: var(--ink);
+    border-bottom: none; border-top: 2px solid var(--ink);
+    padding-top: 14px; margin-top: 6px;
+  }
+  .inv-totals .row.total span:last-child { font-family: var(--font-mono); color: var(--gold); }
+
+  .inv-footer { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); font-size: 13px; color: var(--ink-40); text-align: center; line-height: 1.8; }
+
+  .inv-actions { display: flex; gap: 12px; justify-content: center; margin-top: 32px; }
+
+  @media print {
+    .nav, .inv-actions { display: none; }
+    .invoice-wrap { padding: 0; }
+    .invoice { border: none; box-shadow: none; }
+  }
+  @media (max-width: 900px) {
+    .cart-wrap, .payment-wrap { grid-template-columns: 1fr; padding: 48px 24px; }
+    .summary-card { position: static; }
+    .invoice-wrap { padding: 48px 24px; }
+    .invoice { padding: 36px 24px; }
+    .invoice-head { flex-direction: column; gap: 20px; }
+    .inv-meta { text-align: left; }
+    .inv-totals { width: 100%; }
+    .form-row-2 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="imagenes/logo.png" alt="EvoTech">
+    <span class="nav-wordmark">Evo<span>Tech</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="servicios.html">Servicios</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+    <li><a href="contacto.html">Contacto</a></li>
+    <li><a href="carrito.html" class="active nav-cart-btn">Carrito</a></li>
+  </ul>
+</nav>
+
+<header class="page-hero page-hero-carrito" style="padding-bottom:60px;">
+  <p class="page-hero-tag">Carrito de compra</p>
+  <h1>Tu <em>pedido</em></h1>
+</header>
+
+<div class="cart-wrap" id="vista-carrito">
+  <div>
+    <p class="view-label">Servicios seleccionados</p>
+    <p class="view-title">Resumen del carrito</p>
+    <div id="cart-list-container"></div>
+  </div>
+  <div class="summary-card" id="summary-panel">
+    <p class="summary-label">Resumen de pago</p>
+    <div id="summary-items"></div>
+    <div class="summary-total">
+      <span class="total-label">Subtotal</span>
+      <span class="total-amount" id="summary-subtotal">$0</span>
+    </div>
+    <p class="total-iva" id="summary-iva-note"></p>
+    <button class="btn-checkout" id="btn-checkout" onclick="mostrarPago()" disabled>Continuar al pago →</button>
+  </div>
+</div>
+  
+<div class="payment-wrap" id="vista-pago">
+  <div>
+    <p class="view-label">Información de pago</p>
+    <p class="view-title">Datos de la tarjeta</p>
+    <div class="pay-form">
+      <div class="card-preview" id="card-preview">
+        <div class="card-chip"></div>
+        <div class="card-num" id="prev-num">•••• •••• •••• ••••</div>
+        <div class="card-bottom">
+          <span id="prev-nombre">NOMBRE TITULAR</span>
+          <span id="prev-exp">MM/AA</span>
+        </div>
+        <span class="card-brand">EvoTech</span>
+      </div>
+      <div class="field" style="margin-bottom:16px;">
+        <label>Nombre del titular</label>
+        <input type="text" id="titular" placeholder="Como aparece en la tarjeta" oninput="actualizarPreview()">
+      </div>
+      <div class="field" style="margin-bottom:16px;">
+        <label>Número de tarjeta</label>
+        <input type="text" id="num-tarjeta" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatearTarjeta(this); actualizarPreview()">
+      </div>
+      <div class="form-row-2" style="margin-bottom:16px;">
+        <div class="field"><label>Vencimiento</label><input type="text" id="expiracion" placeholder="MM/AA" maxlength="5" oninput="formatearExp(this); actualizarPreview()"></div>
+        <div class="field"><label>CVV</label><input type="text" id="cvv" placeholder="•••" maxlength="3"></div>
+      </div>
+      <hr class="pay-divider">
+      <div class="field" style="margin-bottom:16px;">
+        <label>Correo para factura</label>
+        <input type="email" id="correo-factura" placeholder="tucorreo@ejemplo.com">
+      </div>
+      <div class="form-row-2" style="margin-bottom:0;">
+        <div class="field"><label>Nombre completo</label><input type="text" id="nombre-cliente" placeholder="Tu nombre"></div>
+        <div class="field"><label>RFC (opcional)</label><input type="text" id="rfc-cliente" placeholder="XAXX010101000"></div>
+      </div>
+      <button class="btn-confirm" onclick="confirmarPago()">🔒 Confirmar pago</button>
+      <button class="btn-back" onclick="volverCarrito()">← Volver al carrito</button>
+    </div>
+  </div>
+  <div class="summary-card" style="position:sticky;top:90px;">
+    <p class="summary-label">Resumen de pago</p>
+    <div id="summary-items-pago"></div>
+    <div class="summary-total">
+      <span class="total-label">Total</span>
+      <span class="total-amount" id="summary-total-pago">$0</span>
+    </div>
+    <p class="total-iva" id="summary-iva-pago"></p>
+  </div>
+</div>
+  
+<div class="invoice-wrap" id="vista-factura">
+  <div class="invoice" id="invoice-doc">
+    <div class="invoice-head">
+      <div>
+        <div class="inv-logo">Evo<span>Tech</span></div>
+        <p style="font-size:13px;color:var(--ink-40);margin-top:8px;line-height:1.7;">
+          Nuevo León, México<br>evotech_contacto@gmail.com
+        </p>
+      </div>
+      <div class="inv-meta">
+        <span class="inv-badge">✓ Pagado</span><br>
+        <strong>Factura #</strong> <span id="inv-num"></span><br>
+        <strong>Fecha:</strong> <span id="inv-fecha"></span><br>
+        <strong>Cliente:</strong> <span id="inv-cliente"></span><br>
+        <strong>RFC:</strong> <span id="inv-rfc"></span>
+      </div>
+    </div>
+
+    <div class="inv-section">
+      <h4>Facturado a</h4>
+      <p id="inv-a" style="font-size:14px;color:var(--ink-80);line-height:1.8;"></p>
+    </div>
+
+    <table class="inv-table">
+      <thead>
+        <tr>
+          <th>Servicio</th>
+          <th>Categoría</th>
+          <th style="text-align:right">Precio</th>
+        </tr>
+      </thead>
+      <tbody id="inv-items"></tbody>
+    </table>
+
+    <div class="inv-totals">
+      <div class="row"><span>Subtotal</span><span id="inv-subtotal"></span></div>
+      <div class="row"><span>IVA (16%)</span><span id="inv-iva"></span></div>
+      <div class="row total"><span>Total</span><span id="inv-total"></span></div>
+    </div>
+
+    <div class="inv-footer">
+      <p>Gracias por confiar en <strong>EvoTech</strong>. Nos pondremos en contacto en las próximas 24 horas para coordinar el inicio de tu proyecto.</p>
+      <p style="margin-top:6px;">© 2026 EvoTech — Todos los derechos reservados</p>
+    </div>
+
+    <div class="inv-actions">
+      <button class="btn-dark" onclick="window.print()">Imprimir / PDF</button>
+      <button class="btn-outline" onclick="nuevaCompra()">Nuevo pedido</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <span class="footer-brand">Evo<span>Tech</span></span>
+  <span class="footer-copy">© 2026 EvoTech — Todos los derechos reservados</span>
+</footer>
+
+<script>
+let carrito = [];
+
+function fmt(n) { return '$' + n.toLocaleString('es-MX') + ' MXN'; }
+
+function renderCarrito() {
+  const container = document.getElementById('cart-list-container');
+  const summaryItems = document.getElementById('summary-items');
+  const subtotalEl = document.getElementById('summary-subtotal');
+  const ivaNote = document.getElementById('summary-iva-note');
+  const btnCheckout = document.getElementById('btn-checkout');
+
+  if (carrito.length === 0) {
+    container.innerHTML = `<div class="cart-empty"><span class="empty-icon">🛒</span><p>Tu carrito está vacío.</p><a href="servicios.html" class="btn-dark">← Ver servicios</a></div>`;
+    summaryItems.innerHTML = '';
+    subtotalEl.textContent = '$0';
+    ivaNote.textContent = '';
+    btnCheckout.disabled = true;
+    return;
+  }
+
+  btnCheckout.disabled = false;
+  container.innerHTML = `<div class="cart-list">${carrito.map((item, i) => `
+    <div class="cart-item">
+      <span class="item-badge">${item.tag}</span>
+      <span class="item-name">${item.nombre}</span>
+      <span class="item-price">${fmt(item.precio)}</span>
+      <button class="item-del" onclick="eliminar(${i})" title="Eliminar">✕</button>
+    </div>`).join('')}</div>`;
+
+  const subtotal = carrito.reduce((s, i) => s + i.precio, 0);
+  const iva = Math.round(subtotal * 0.16);
+  const total = subtotal + iva;
+
+  summaryItems.innerHTML = carrito.map(i => `<div class="summary-row"><span>${i.nombre}</span><span>${fmt(i.precio)}</span></div>`).join('');
+  subtotalEl.textContent = fmt(subtotal);
+  ivaNote.innerHTML = `+ IVA 16% = <strong>${fmt(total)}</strong>`;
+}
+
+function eliminar(i) {
+  carrito.splice(i, 1);
+  sessionStorage.setItem('evotech_carrito', JSON.stringify(carrito));
+  renderCarrito();
+}
+
+function mostrarPago() {
+  document.getElementById('vista-carrito').style.display = 'none';
+  document.getElementById('vista-pago').style.display = 'grid';
+  const subtotal = carrito.reduce((s, i) => s + i.precio, 0);
+  const iva = Math.round(subtotal * 0.16);
+  const total = subtotal + iva;
+  document.getElementById('summary-items-pago').innerHTML = carrito.map(i => `<div class="summary-row"><span>${i.nombre}</span><span>${fmt(i.precio)}</span></div>`).join('');
+  document.getElementById('summary-total-pago').textContent = fmt(total);
+  document.getElementById('summary-iva-pago').textContent = `Subtotal ${fmt(subtotal)} + IVA 16%`;
+}
+
+function volverCarrito() {
+  document.getElementById('vista-pago').style.display = 'none';
+  document.getElementById('vista-carrito').style.display = 'grid';
+}
+
+function formatearTarjeta(el) { let v = el.value.replace(/\D/g,'').substring(0,16); el.value = v.replace(/(.{4})/g,'$1 ').trim(); }
+function formatearExp(el) { let v = el.value.replace(/\D/g,'').substring(0,4); if (v.length >= 2) v = v.substring(0,2) + '/' + v.substring(2); el.value = v; }
+
+function actualizarPreview() {
+  const num = document.getElementById('num-tarjeta').value || '•••• •••• •••• ••••';
+  const nombre = document.getElementById('titular').value.toUpperCase() || 'NOMBRE TITULAR';
+  const exp = document.getElementById('expiracion').value || 'MM/AA';
+  document.getElementById('prev-num').textContent = num;
+  document.getElementById('prev-nombre').textContent = nombre;
+  document.getElementById('prev-exp').textContent = exp;
+}
+
+function confirmarPago() {
+  const titular = document.getElementById('titular').value.trim();
+  const num = document.getElementById('num-tarjeta').value.trim();
+  const exp = document.getElementById('expiracion').value.trim();
+  const cvv = document.getElementById('cvv').value.trim();
+  const correo = document.getElementById('correo-factura').value.trim();
+  const nombre = document.getElementById('nombre-cliente').value.trim();
+  if (!titular || num.length < 19 || exp.length < 5 || cvv.length < 3 || !correo || !nombre) {
+    alert('Por favor completa todos los campos obligatorios.');
+    return;
+  }
+  generarFactura(nombre, correo);
+}
+
+function generarFactura(nombre, correo) {
+  const subtotal = carrito.reduce((s, i) => s + i.precio, 0);
+  const iva = Math.round(subtotal * 0.16);
+  const total = subtotal + iva;
+  const rfc = document.getElementById('rfc-cliente').value.trim() || 'XAXX010101000';
+  const folio = 'EVT-' + Date.now().toString().slice(-6);
+  const hoy = new Date().toLocaleDateString('es-MX', { year:'numeric', month:'long', day:'numeric' });
+
+  document.getElementById('inv-num').textContent = folio;
+  document.getElementById('inv-fecha').textContent = hoy;
+  document.getElementById('inv-cliente').textContent = nombre;
+  document.getElementById('inv-rfc').textContent = rfc;
+  document.getElementById('inv-a').innerHTML = `${nombre}<br>${correo}<br>RFC: ${rfc}`;
+  document.getElementById('inv-items').innerHTML = carrito.map(i => `
+    <tr>
+      <td>${i.nombre}</td>
+      <td><span style="font-family:var(--font-mono);font-size:11px;padding:3px 10px;border:1px solid var(--border-gold);color:var(--gold);">${i.tag}</span></td>
+      <td class="price">${fmt(i.precio)}</td>
+    </tr>`).join('');
+
+  document.getElementById('inv-subtotal').textContent = fmt(subtotal);
+  document.getElementById('inv-iva').textContent = fmt(iva);
+  document.getElementById('inv-total').textContent = fmt(total);
+
+  document.getElementById('vista-pago').style.display = 'none';
+  document.getElementById('vista-factura').style.display = 'block';
+  sessionStorage.removeItem('evotech_carrito');
+}
+
+function nuevaCompra() { window.location.href = 'servicios.html'; }
+
+window.addEventListener('load', () => {
+  carrito = JSON.parse(sessionStorage.getItem('evotech_carrito') || '[]');
+  renderCarrito();
+});
+</script>
+</body>
+</html>
